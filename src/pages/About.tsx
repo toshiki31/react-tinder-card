@@ -15,6 +15,21 @@ const db: DB[] = [
     name: "bbb",
     img: Comic2,
   },
+  {
+    id: 3,
+    name: "aaa",
+    img: Comic1,
+  },
+  {
+    id: 4,
+    name: "bbb",
+    img: Comic2,
+  },
+  {
+    id: 5,
+    name: "bbb",
+    img: Comic2,
+  },
 ];
 
 export const About: React.FC = () => {

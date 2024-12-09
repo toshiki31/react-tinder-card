@@ -1,10 +1,10 @@
 import React, { FC, useState, useRef, useMemo } from "react";
 import TinderCard from "react-tinder-card";
 import { useNavigate } from "@tanstack/react-router";
-import ThumbUp from "../assets/icon_thumb_up.svg";
-import ThumbDown from "../assets/icon_thumb_down.svg";
-import Undo from "../assets/icon_undo.svg";
-import { Stack, Typography, Button } from "@mui/material";
+import { Stack, Typography, Button, Box } from "@mui/material";
+import ThumbUpIcon from "@mui/icons-material/ThumbUp";
+import ThumbDown from "@mui/icons-material/ThumbDown";
+import UndoIcon from "@mui/icons-material/Undo";
 
 interface TinderCardAPI {
   swipe(dir?: "left" | "right" | "up" | "down"): Promise<void>;
@@ -116,21 +116,34 @@ export const TinderSwipe: FC<Props> = ({ db }) => {
                 position="absolute"
                 width={300}
                 height={400}
-                borderRadius="20px"
+                borderRadius="10px"
                 boxShadow="0px 0px 10px rgba(0,0,0,0.1)"
                 sx={{
-                  backgroundImage: `url(${character.img})`,
-                  backgroundSize: "cover",
-                  backgroundPosition: "center",
+                  backgroundColor: "white", // 背景を白に設定
+                  zIndex: db.length - index, // カードの順番を設定（先頭カードが最前面）
+                  transform: `translateY(${(db.length - 1 - index) * -15}px) scale(${1 - (db.length - 1 - index) * 0.03})`, // カードを少しずつ下にずらしながらスケールも小さくする
                 }}
               >
-                <Typography
-                  variant="h3"
+                {/* 写真部分 */}
+                <Box
                   sx={{
-                    position: "absolute",
-                    bottom: 0,
-                    margin: 2,
-                    color: "white",
+                    width: 300,
+                    height: 169,
+                    margin: "0 auto",
+                    backgroundImage: `url(${character.img})`,
+                    backgroundSize: "cover",
+                    backgroundPosition: "center",
+                    borderRadius: "10px", // 写真の角を丸くする
+                  }}
+                />
+
+                {/* 名前部分 */}
+                <Typography
+                  variant="h6"
+                  sx={{
+                    marginTop: 2,
+                    textAlign: "center",
+                    color: "black", // テキストカラー
                   }}
                 >
                   {character.name}
@@ -163,7 +176,7 @@ export const TinderSwipe: FC<Props> = ({ db }) => {
               },
             }}
           >
-            <img src={ThumbDown} alt="Thumb Down" />
+            <ThumbDown />
           </Button>
           <Button
             onClick={() => goBack()}
@@ -180,7 +193,7 @@ export const TinderSwipe: FC<Props> = ({ db }) => {
               },
             }}
           >
-            <img src={Undo} alt="Undo" />
+            <UndoIcon />
           </Button>
           <Button
             onClick={() => swipe("right")}
@@ -197,7 +210,7 @@ export const TinderSwipe: FC<Props> = ({ db }) => {
               },
             }}
           >
-            <img src={ThumbUp} alt="Thumb Up" />
+            <ThumbUpIcon />
           </Button>
         </Stack>
 
