@@ -1,10 +1,10 @@
 import React, { FC, useState, useRef, useMemo } from "react";
 import TinderCard from "react-tinder-card";
-// import { useHistory } from "react-router-dom";
 import { useNavigate } from "@tanstack/react-router";
 import ThumbUp from "../assets/icon_thumb_up.svg";
 import ThumbDown from "../assets/icon_thumb_down.svg";
 import Undo from "../assets/icon_undo.svg";
+import { Stack, Typography, Button } from "@mui/material";
 
 interface TinderCardAPI {
   swipe(dir?: "left" | "right" | "up" | "down"): Promise<void>;
@@ -102,8 +102,8 @@ export const TinderSwipe: FC<Props> = ({ db }) => {
   return (
     <>
       {isLoading && "Loading"}
-      <div className="tinder-swipe">
-        <div className="cardContainer">
+      <Stack spacing={2} alignItems="center" sx={{ mt: 5 }}>
+        <Stack width={300} height={400} position="relative" overflow="visible">
           {db.map((character, index) => (
             <TinderCard
               ref={childRefs[index]}
@@ -112,32 +112,111 @@ export const TinderSwipe: FC<Props> = ({ db }) => {
               onSwipe={(dir) => swiped(dir, index)}
               onCardLeftScreen={() => outOfFrame(index)}
             >
-              <div
-                style={{ backgroundImage: "url(" + character.img[0] + ")" }}
-                className="card"
+              <Stack
+                position="absolute"
+                width={300}
+                height={400}
+                borderRadius="20px"
+                boxShadow="0px 0px 10px rgba(0,0,0,0.1)"
+                sx={{
+                  backgroundImage: `url(${character.img})`,
+                  backgroundSize: "cover",
+                  backgroundPosition: "center",
+                }}
               >
-                <h3>{character.name}</h3>
-              </div>
+                <Typography
+                  variant="h3"
+                  sx={{
+                    position: "absolute",
+                    bottom: 0,
+                    margin: 2,
+                    color: "white",
+                  }}
+                >
+                  {character.name}
+                </Typography>
+              </Stack>
             </TinderCard>
           ))}
-        </div>
-        <div className="buttons">
-          <button onClick={() => swipe("left")}>
-            <img src={ThumbDown} alt="" />
-          </button>
-          <button onClick={() => goBack()}>
-            <img src={Undo} alt="" />
-          </button>
-          <button onClick={() => swipe("right")}>
-            <img src={ThumbUp} alt="" />
-          </button>
-        </div>
+        </Stack>
+
+        <Stack
+          direction="row"
+          spacing={2}
+          sx={{
+            width: 250,
+            justifyContent: "space-between",
+          }}
+        >
+          <Button
+            onClick={() => swipe("left")}
+            sx={{
+              width: 60,
+              height: 60,
+              borderRadius: "50%",
+              backgroundColor: "white",
+              border: "2px solid #83C5BE",
+              boxShadow: "3px 3px 5px rgba(0, 0, 0, 0.05)",
+              transition: "200ms",
+              "&:hover": {
+                transform: "scale(1.05)",
+              },
+            }}
+          >
+            <img src={ThumbDown} alt="Thumb Down" />
+          </Button>
+          <Button
+            onClick={() => goBack()}
+            sx={{
+              width: 60,
+              height: 60,
+              borderRadius: "50%",
+              backgroundColor: "white",
+              border: "2px solid #83C5BE",
+              boxShadow: "3px 3px 5px rgba(0, 0, 0, 0.05)",
+              transition: "200ms",
+              "&:hover": {
+                transform: "scale(1.05)",
+              },
+            }}
+          >
+            <img src={Undo} alt="Undo" />
+          </Button>
+          <Button
+            onClick={() => swipe("right")}
+            sx={{
+              width: 60,
+              height: 60,
+              borderRadius: "50%",
+              backgroundColor: "white",
+              border: "2px solid #83C5BE",
+              boxShadow: "3px 3px 5px rgba(0, 0, 0, 0.05)",
+              transition: "200ms",
+              "&:hover": {
+                transform: "scale(1.05)",
+              },
+            }}
+          >
+            <img src={ThumbUp} alt="Thumb Up" />
+          </Button>
+        </Stack>
+
         {lastDirection && (
-          <h3 key={lastDirection} className="infoText">
+          <Typography
+            variant="h6"
+            key={lastDirection}
+            sx={{
+              width: "100%",
+              height: 28,
+              display: "flex",
+              justifyContent: "center",
+              animation: "popup 800ms",
+            }}
+          >
             You swiped {lastDirection}
-          </h3>
+          </Typography>
         )}
-      </div>
+      </Stack>
     </>
   );
 };
