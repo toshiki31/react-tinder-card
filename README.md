@@ -59,3 +59,11 @@ export default tseslint.config({
 
 - Qiita
   https://qiita.com/1zushun/items/1e7a833be4a4402f2b74
+
+- Embla Carousel
+  https://codesandbox.io/p/sandbox/lp2y6y?file=/src/css/embla.css:9,20  
+
+  https://www.embla-carousel.com/examples/predefined/  
+
+  https://blog.to-ko-s.com/embla-carousel/  
+  
