@@ -12,6 +12,7 @@
 
 import { Route as rootRoute } from './routes/__root'
 import { Route as IndexImport } from './routes/index'
+import { Route as BannerIndexImport } from './routes/banner/index'
 import { Route as AboutIndexImport } from './routes/about/index'
 import { Route as AboutResultIndexImport } from './routes/about/result/index'
 
@@ -20,6 +21,12 @@ import { Route as AboutResultIndexImport } from './routes/about/result/index'
 const IndexRoute = IndexImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const BannerIndexRoute = BannerIndexImport.update({
+  id: '/banner/',
+  path: '/banner/',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -53,6 +60,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AboutIndexImport
       parentRoute: typeof rootRoute
     }
+    '/banner/': {
+      id: '/banner/'
+      path: '/banner'
+      fullPath: '/banner'
+      preLoaderRoute: typeof BannerIndexImport
+      parentRoute: typeof rootRoute
+    }
     '/about/result/': {
       id: '/about/result/'
       path: '/about/result'
@@ -68,12 +82,14 @@ declare module '@tanstack/react-router' {
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/about': typeof AboutIndexRoute
+  '/banner': typeof BannerIndexRoute
   '/about/result': typeof AboutResultIndexRoute
 }
 
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/about': typeof AboutIndexRoute
+  '/banner': typeof BannerIndexRoute
   '/about/result': typeof AboutResultIndexRoute
 }
 
@@ -81,27 +97,30 @@ export interface FileRoutesById {
   __root__: typeof rootRoute
   '/': typeof IndexRoute
   '/about/': typeof AboutIndexRoute
+  '/banner/': typeof BannerIndexRoute
   '/about/result/': typeof AboutResultIndexRoute
 }
 
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/about' | '/about/result'
+  fullPaths: '/' | '/about' | '/banner' | '/about/result'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/about' | '/about/result'
-  id: '__root__' | '/' | '/about/' | '/about/result/'
+  to: '/' | '/about' | '/banner' | '/about/result'
+  id: '__root__' | '/' | '/about/' | '/banner/' | '/about/result/'
   fileRoutesById: FileRoutesById
 }
 
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AboutIndexRoute: typeof AboutIndexRoute
+  BannerIndexRoute: typeof BannerIndexRoute
   AboutResultIndexRoute: typeof AboutResultIndexRoute
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AboutIndexRoute: AboutIndexRoute,
+  BannerIndexRoute: BannerIndexRoute,
   AboutResultIndexRoute: AboutResultIndexRoute,
 }
 
@@ -117,6 +136,7 @@ export const routeTree = rootRoute
       "children": [
         "/",
         "/about/",
+        "/banner/",
         "/about/result/"
       ]
     },
@@ -125,6 +145,9 @@ export const routeTree = rootRoute
     },
     "/about/": {
       "filePath": "about/index.tsx"
+    },
+    "/banner/": {
+      "filePath": "banner/index.tsx"
     },
     "/about/result/": {
       "filePath": "about/result/index.tsx"
